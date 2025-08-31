@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Give Me A Sign ✨</title>
+  <meta name="description" content="Ask the universe for a sign. Click and receive a gentle nudge, mantra, or synchronicity." />
+  <meta property="og:title" content="Give Me A Sign ✨" />
+  <meta property="og:description" content="Ask the universe for a sign. Click and receive a gentle nudge, mantra, or synchronicity." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://dummyimage.com/1200x630/0b1020/ffffff&text=Give+Me+A+Sign" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✨</text></svg>">
+  <style>
+    :root{
+      --bg:#0b1020; --bg2:#101633; --fg:#f7f8ff; --muted:#cfd3ff; --accent:#b6a3ff; --card:#131a3b; --ring:rgba(182,163,255,.5)
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+      background: radial-gradient(1200px 800px at 80% -10%, #1e2759 0, transparent 55%),
+                  radial-gradient(900px 700px at -10% 110%, #1a1f45 0, transparent 60%),
+                  linear-gradient(180deg, var(--bg), var(--bg2));
+      color:var(--fg); display:flex; align-items:center; justify-content:center; padding:24px;
+    }
+    .shell{max-width:820px; width:100%}
+    .card{
+      background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:24px; padding:28px; box-shadow:0 20px 60px rgba(0,0,0,.35);
+      backdrop-filter:saturate(130%) blur(8px);
+    }
+    h1{font-size:clamp(28px,4vw,44px); margin:0 0 8px; letter-spacing:.3px}
+    p.lead{margin:0 0 18px; color:var(--muted)}
+    .actions{display:flex; gap:12px; flex-wrap:wrap; margin-top:16px}
+    button{appearance:none; border:none; cursor:pointer; font-weight:600; color:#0b0f1e}
+    .btn{
+      padding:14px 18px; border-radius:14px; background:#c7b9ff; transition:transform .06s ease, box-shadow .2s;
+      box-shadow:0 8px 24px rgba(182,163,255,.25)
+    }
+    .btn:hover{transform:translateY(-1px)}
+    .btn.secondary{background:#eef; color:#161a33}
+    .sign-wrap{
+      margin-top:22px; position:relative; min-height:180px;
+      display:grid; align-items:center; justify-items:center
+    }
+    .sign{
+      font-size:clamp(20px,3.2vw,32px); line-height:1.3; text-align:center; padding:24px; border-radius:18px;
+      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      border:1px solid rgba(255,255,255,.08);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 10px 30px rgba(0,0,0,.25);
+    }
+    .meta{margin-top:10px; font-size:14px; color:#aeb5ff}
+    .footer{margin-top:28px; display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; color:#aeb5ff; font-size:14px}
+    a{color:#c7b9ff; text-decoration:none}
+    .chip{border:1px solid rgba(255,255,255,.12); padding:8px 10px; border-radius:999px; font-size:13px; color:#ccd0ff}
+    .stack{display:flex; gap:8px; flex-wrap:wrap}
+    .hidden{display:none}
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <div class="card">
+      <h1>Give Me A Sign <span aria-hidden="true">✨</span></h1>
+      <p class="lead">Ask the universe for a sign. Click the button and receive a gentle nudge, mantra, or synchronicity.</p>
+
+      <div class="actions">
+        <button id="askBtn" class="btn" aria-live="polite">Give me a sign</button>
+        <button id="againBtn" class="btn secondary" disabled>Another one</button>
+        <button id="shareBtn" class="btn secondary" disabled>Share</button>
+        <button id="copyBtn" class="btn secondary" disabled>Copy link</button>
+      </div>
+
+      <div class="sign-wrap">
+        <div id="sign" class="sign" role="status" aria-live="polite">Your sign will appear here.</div>
+        <div id="meta" class="meta hidden"></div>
+      </div>
+
+      <div class="footer">
+        <div class="stack" id="chips"></div>
+        <div><a href="#about" id="aboutLink">What is this?</a></div>
+      </div>
+    </div>
+
+    <section id="about" class="card" style="margin-top:16px">
+      <h2 style="margin:0 0 6px; font-size:20px">About</h2>
+      <p style="margin:0; color:#cfd3ff">This playful project serves random, uplifting prompts. If a sign resonates, great. If not, treat it as a moment to pause and breathe. 💜</p>
+    </section>
+
+    <section class="card" style="margin-top:16px">
+      <h2 style="margin:0 0 10px; font-size:20px">Send a sign to a friend</h2>
+      <form id="sendForm" class="stack" onsubmit="return false;">
+        <input id="friendInput" type="text" placeholder="Friend's name (optional)" aria-label="Friend's name" style="flex:1; background:#0f1531; color:var(--fg); border:1px solid rgba(255,255,255,.12); border-radius:12px; padding:12px"/>
+        <button id="makeLinkBtn" class="btn secondary" type="button">Generate sharable link</button>
+        <span id="friendLink" class="chip hidden" aria-live="polite"></span>
+      </form>
+    </section>
+
+    <section class="card" style="margin-top:16px">
+      <h2 style="margin:0 0 10px; font-size:20px">Privacy</h2>
+      <p style="margin:0; color:#cfd3ff">No personal data is required or stored for basic use. Links you share include only an index to reproduce the same sign. <a href="#privacy">Learn more</a>.</p>
+    </section>
+
+    <footer style="text-align:center; opacity:.8; margin-top:18px; font-size:13px">© <span id="year"></span> Give Me A Sign</footer>
+  </main>
+
+  <script>
+    // --- Content: feel free to edit/expand ---
+    const SIGN_BUCKETS = {
+      "Classic": [
+        "Yes — take the step.",
+        "Wait. Let timing ripen.",
+        "Ask for help; it arrives.",
+        "Trust the quiet nudge.",
+        "Choose the kinder path.",
+        "This is already unfolding.",
+        "Begin before you're ready.",
+        "You don't need permission.",
+        "Detach; let it come to you.",
+        "The answer is in your body.",
+        "If it's for you, it stays.",
+        "Say it out loud.",
+        "Tiny steps, today.",
+        "It's okay to rest.",
+        "What you seek is seeking you.",
+        "You already know.",
+        "Choose curiosity over fear.",
+        "Release the need to control.",
+        "Receive."
+      ],
+      "Angel Numbers": [
+        "111 — Initiate.",
+        "222 — Alignment.",
+        "333 — Support surrounds you.",
+        "444 — Foundation first.",
+        "555 — Embrace change.",
+        "777 — Inner wisdom.",
+        "888 — Abundance cycles.",
+        "999 — Closure & renewal."
+      ],
+      "Courage": [
+        "Jump — the net will appear.",
+        "Your future self says ‘thank you’.",
+        "Say yes to being seen.",
+        "Perfection is a delay tactic.",
+        "Risk the conversation."
+      ],
+      "Love": [
+        "Open your heart one millimeter.",
+        "Text them — with honesty.",
+        "Start by loving your day.",
+        "Receive the love already here.",
+        "What you water, grows."
+      ]
+    };
+
+    const signs = Object.entries(SIGN_BUCKETS).flatMap(([bucket, arr]) => arr.map((text) => ({ bucket, text })));
+
+    const qs = new URLSearchParams(location.search);
+    const presetIndex = qs.get('s');
+
+    const signEl = document.getElementById('sign');
+    const metaEl = document.getElementById('meta');
+    const chipsEl = document.getElementById('chips');
+    const askBtn = document.getElementById('askBtn');
+    const againBtn = document.getElementById('againBtn');
+    const shareBtn = document.getElementById('shareBtn');
+    const copyBtn = document.getElementById('copyBtn');
+    const makeLinkBtn = document.getElementById('makeLinkBtn');
+    const friendInput = document.getElementById('friendInput');
+    const friendLink = document.getElementById('friendLink');
+
+    const yearEl = document.getElementById('year');
+    yearEl.textContent = new Date().getFullYear();
+
+    function pickIndex() {
+      return Math.floor(Math.random() * signs.length);
+    }
+
+    function showSign(idx) {
+      const s = signs[idx];
+      if (!s) return;
+      signEl.textContent = s.text;
+      metaEl.textContent = s.bucket + " · Sign #" + (idx + 1);
+      metaEl.classList.remove('hidden');
+
+      // chips (bucket tags)
+      chipsEl.innerHTML = '';
+      const chip = document.createElement('span');
+      chip.className = 'chip';
+      chip.textContent = s.bucket;
+      chipsEl.appendChild(chip);
+
+      // enable controls
+      againBtn.disabled = false;
+      shareBtn.disabled = false;
+      copyBtn.disabled = false;
+
+      // update URL param so it can be shared
+      const url = new URL(location.href);
+      url.searchParams.set('s', idx);
+      history.replaceState({}, '', url);
+
+      return s;
+    }
+
+    function reveal() {
+      askBtn.disabled = true;
+      const idx = pickIndex();
+      // simple micro animation
+      signEl.animate([
+        { opacity: 0, transform: 'scale(.98)'},
+        { opacity: 1, transform: 'scale(1)'}
+      ], { duration: 200, easing: 'ease-out' });
+      showSign(idx);
+    }
+
+    function another() {
+      const idx = pickIndex();
+      showSign(idx);
+    }
+
+    async function shareCurrent() {
+      const url = location.href;
+      const text = `My sign today: "${signEl.textContent}" —`; 
+      const shareData = { title: 'Give Me A Sign', text, url };
+      try {
+        if (navigator.share) { await navigator.share(shareData); }
+        else { await navigator.clipboard.writeText(url); alert('Link copied!'); }
+      } catch (e) {
+        console.log(e);
+      }
+    }
+
+    async function copyLink() {
+      await navigator.clipboard.writeText(location.href);
+      copyBtn.textContent = 'Copied!';
+      setTimeout(()=> copyBtn.textContent = 'Copy link', 1200);
+    }
+
+    function generateFriendLink() {
+      const idx = pickIndex();
+      const url = new URL(location.href);
+      url.searchParams.set('s', idx);
+      const name = friendInput.value.trim();
+      if (name) url.searchParams.set('to', encodeURIComponent(name));
+      friendLink.textContent = url.toString();
+      friendLink.classList.remove('hidden');
+      navigator.clipboard.writeText(url.toString());
+    }
+
+    // Wire up events
+    askBtn.addEventListener('click', reveal);
+    againBtn.addEventListener('click', another);
+    shareBtn.addEventListener('click', shareCurrent);
+    copyBtn.addEventListener('click', copyLink);
+    makeLinkBtn.addEventListener('click', generateFriendLink);
+
+    // If URL has preset index, show the same sign (for sharing)
+    if (presetIndex !== null) {
+      const idx = Math.max(0, Math.min(signs.length - 1, Number(presetIndex)));
+      showSign(idx);
+      askBtn.disabled = true;
+    }
+
+    // Optional: lightweight pageview (no external calls). Replace with GA/Privacy-friendly later.
+    (function(){
+      try{
+        const k='gm-sign-views';
+        const n=Number(localStorage.getItem(k) || 0)+1;
+        localStorage.setItem(k, String(n));
+      }catch(_){/* no-op */}
+    })();
+  </script>
+</body>
+</html>
